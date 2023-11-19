@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
-
+import * as z from "zod";
 export default function AuthLayout() {
-	const isAuthenticated: boolean = false;
+	const isAuthenticated = false;
 
 	return (
 		<>
