@@ -29,9 +29,9 @@ export default function SignupForm() {
 	});
 
 	async function onSubmit(values: z.infer<typeof SignupSchema>) {
-		const newUser = false;
 		console.log(values);
 	}
+	// Exam Day
 	return (
 		<Form {...form}>
 			<div className="sm:w-420 flex-center flex-col">
