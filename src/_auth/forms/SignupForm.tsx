@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 import {
 	Form,
 	FormControl,
@@ -15,8 +16,7 @@ import {
 import { SignupSchema } from "@/lib/Validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
-// Exam Day
-import { ID, account } from "@/lib/appwrite/config";
+import { createUser } from "@/lib/appwrite/api";
 
 export default function SignupForm() {
 	const isLoading = false;
@@ -33,14 +33,10 @@ export default function SignupForm() {
 		},
 	});
 
-	async function signUp(email: string, password: string, name: string) {
-		await account.create(ID.unique(), email, password, name);
-		await account.createEmailSession(email, password);
-		setIsSignedin(await account.get());
-	}
-
 	async function onSubmit(values: z.infer<typeof SignupSchema>) {
-		signUp(values.email, values.password, values.name);
+		const newUser = await createUser(values);
+		console.log(newUser);
+		setIsSignedin(newUser);
 	}
 
 	return (
@@ -51,10 +47,10 @@ export default function SignupForm() {
 					<Button
 						type="submit"
 						className="shad-button_primary"
-						onClick={async () => {
-							await account.deleteSession("current");
-							setIsSignedin(null);
-						}}
+						// onClick={async () => {
+						// 	await account.deleteSession("current");
+						// 	setIsSignedin(null);
+						// }}
 					>
 						{isLoading ? (
 							<div className="flex-center gap-2">
