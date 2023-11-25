@@ -37,6 +37,10 @@ export default function SignupForm() {
 		const newUser = await createUser(values);
 		console.log(newUser);
 		setIsSignedin(newUser);
+
+		if (!newUser) {
+			return;
+		}
 	}
 
 	return (
