@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import {
 	Form,
 	FormControl,
@@ -13,14 +12,23 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { SignupSchema } from "@/lib/Validation";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
-import { createUser } from "@/lib/appwrite/api";
+
+import {
+	useCreateNewUser,
+	useSignInUser,
+} from "@/lib/reactQuery/queriesAndMutations";
 
 export default function SignupForm() {
-	const isLoading = false;
+	const { isLoading: isCreating, mutateAsync: createUser } =
+		useCreateNewUser();
 
+	const { isLoading: isSigningIn, mutateAsync: signInUser } = useSignInUser();
+
+	const { toast } = useToast();
 	const [isSignedin, setIsSignedin] = useState(null);
 
 	const form = useForm<z.infer<typeof SignupSchema>>({
@@ -36,10 +44,22 @@ export default function SignupForm() {
 	async function onSubmit(values: z.infer<typeof SignupSchema>) {
 		const newUser = await createUser(values);
 		console.log(newUser);
-		setIsSignedin(newUser);
 
 		if (!newUser) {
-			return;
+			return toast({
+				title: "Signup Failed please try again.",
+			});
+		}
+
+		const session = signInUser({
+			email: values.email,
+			password: values.password,
+		});
+
+		if (!session) {
+			return toast({
+				title: "Signup Failed please try again.",
+			});
 		}
 	}
 
