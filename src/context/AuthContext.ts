@@ -33,7 +33,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		setIsAuthenticated,
 		checkAuthUser: async () => false as boolean,
 	};
-
+	// Null Day
 	return (
 		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 	);
