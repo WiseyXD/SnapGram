@@ -18,7 +18,7 @@ export const INITIAL_STATE = {
 	checkAuthUser: async () => false as boolean,
 };
 
-const AuthContext = createContext(INITIAL_STATE);
+const AuthContext = createContext<IContextType>(INITIAL_STATE);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<IUser>(INITIAL_USER);
@@ -33,10 +33,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		setIsAuthenticated,
 		checkAuthUser: async () => false as boolean,
 	};
-	// Null Day
 	return (
-		<AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+		<div>
+			<AuthContext.Provider value={value}>
+				{children}
+			</AuthContext.Provider>
+		</div>
 	);
 };
-
 export default AuthContext;
