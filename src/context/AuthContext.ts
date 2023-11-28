@@ -33,6 +33,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		setIsAuthenticated,
 		checkAuthUser: async () => false as boolean,
 	};
+	// Exam Day
 	return (
 		<div>
 			<AuthContext.Provider value={value}>
