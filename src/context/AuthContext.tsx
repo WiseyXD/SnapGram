@@ -34,6 +34,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+	const checkAuthUser = async () => {
+		try {
+			const currentAccount = await getCurrentAccount();
+		} catch (error) {
+			console.log(error);
+			return false;
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	const value = {
 		user,
 		isLoading,
@@ -52,3 +63,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	);
 };
 export default AuthContext;
+// Working on CHeck Auth
