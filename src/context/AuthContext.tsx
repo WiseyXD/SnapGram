@@ -33,7 +33,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<IUser>(INITIAL_USER);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	// Exam DaY
+	// Final Exam Day
 	const checkAuthUser = async () => {
 		try {
 			const currentAccount = await getCurrentAccount();
