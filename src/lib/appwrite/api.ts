@@ -1,4 +1,4 @@
-import { ID } from "appwrite";
+import { ID, Query } from "appwrite";
 import { INewUser } from "@/types";
 import { account, avatars, databasese, appwriteConfig } from "./config";
 
@@ -59,5 +59,25 @@ export async function signInUser(user: { email: string; password: string }) {
 		return session;
 	} catch (error) {
 		console.log(error);
+	}
+}
+
+export async function getCurrentAccount() {
+	try {
+		const currentAccount = await account.get();
+
+		if (!currentAccount) throw Error;
+
+		const currentUser = await databasese.listDocuments(
+			appwriteConfig.appwriteDatabaseId,
+			appwriteConfig.appwriteUsersCollectionId,
+			[Query.equal("accountId", currentAccount.$id)]
+		);
+
+		if (!currentUser) throw Error;
+
+		return currentUser.documents[0];
+	} catch (err) {
+		console.log(err);
 	}
 }

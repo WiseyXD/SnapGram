@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { IUser } from "@/types";
+import { getCurrentAccount } from "@/lib/appwrite/api";
+import { useNavigate } from "react-router-dom";
 
 export const INITIAL_USER = {
 	id: "",
@@ -7,6 +9,7 @@ export const INITIAL_USER = {
 	username: "",
 	email: "",
 	bio: "",
+	imageUrl: "",
 };
 
 export const INITIAL_STATE = {
@@ -33,10 +36,27 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<IUser>(INITIAL_USER);
 	const [isLoading, setIsLoading] = useState(false);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	// Final Exam Day
+
+	const navigate = useNavigate();
+
 	const checkAuthUser = async () => {
 		try {
 			const currentAccount = await getCurrentAccount();
+			if (currentAccount) {
+				setUser({
+					id: currentAccount.$id,
+					name: currentAccount.name,
+					username: currentAccount.username,
+					email: currentAccount.email,
+					bio: currentAccount.bio,
+					imageUrl: currentAccount.imageUrl,
+				});
+
+				setIsAuthenticated(true);
+
+				return true;
+			}
+			return false;
 		} catch (error) {
 			console.log(error);
 			return false;
@@ -45,13 +65,22 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (
+			localStorage.getItem("cookieFallback") === "[]" ||
+			localStorage.getItem("cookieFallback") === null
+		) {
+			navigate("/sign-in");
+		}
+	}, []);
+
 	const value = {
 		user,
 		isLoading,
 		isAuthenticated,
 		setUser,
 		setIsAuthenticated,
-		checkAuthUser: async () => false as boolean,
+		checkAuthUser,
 	};
 	// Exam Day
 	return (
@@ -62,5 +91,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		</div>
 	);
 };
-export default AuthContext;
-// Working on CHeck Auth
+export default AuthProvider;
+
+export const useUserContext = ()=> useContext(AuthContext)

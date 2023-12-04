@@ -76,7 +76,7 @@ export default function SignupForm() {
 						// 	setIsSignedin(null);
 						// }}
 					>
-						{isLoading ? (
+						{isSigningIn ? (
 							<div className="flex-center gap-2">
 								<Loader />
 							</div>
@@ -172,7 +172,7 @@ export default function SignupForm() {
 								type="submit"
 								className="shad-button_primary"
 							>
-								{isLoading ? (
+								{isSigningIn ? (
 									<div className="flex-center gap-2">
 										<Loader />
 									</div>
