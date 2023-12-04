@@ -15,20 +15,25 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { SignupSchema } from "@/lib/Validation";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
 	useCreateNewUser,
 	useSignInUser,
 } from "@/lib/reactQuery/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 export default function SignupForm() {
-	const { isLoading: isCreating, mutateAsync: createUser } =
+	const { isPending: isCreating, mutateAsync: createUser } =
 		useCreateNewUser();
 
-	const { isLoading: isSigningIn, mutateAsync: signInUser } = useSignInUser();
+	const { isPending: isSigningIn, mutateAsync: signInUser } = useSignInUser();
+
+	const { checkAuthUser, isPending: isUserLoggingIn } = useUserContext();
 
 	const { toast } = useToast();
+	const navigate = useNavigate();
+
 	const [isSignedin, setIsSignedin] = useState(null);
 
 	const form = useForm<z.infer<typeof SignupSchema>>({
@@ -59,6 +64,18 @@ export default function SignupForm() {
 		if (!session) {
 			return toast({
 				title: "Signup Failed please try again.",
+			});
+		}
+
+		console.log(checkAuthUser);
+		const isLoggedIn = await checkAuthUser();
+
+		if (isLoggedIn) {
+			form.reset();
+			navigate("/sign-in");
+		} else {
+			toast({
+				title: "Signup Failed please try again in is loggedin.",
 			});
 		}
 	}
