@@ -24,17 +24,16 @@ import {
 import { useUserContext } from "@/context/AuthContext";
 
 export default function SignupForm() {
-	const { isPending: isCreating, mutateAsync: createUser } =
-		useCreateNewUser();
-
-	const { isPending: isSigningIn, mutateAsync: signInUser } = useSignInUser();
-
-	const { checkAuthUser, isPending: isUserLoggingIn } = useUserContext();
-
 	const { toast } = useToast();
 	const navigate = useNavigate();
 
 	const [isSignedin, setIsSignedin] = useState(null);
+
+	const { isPending: isCreating, mutateAsync: createUser } =
+		useCreateNewUser();
+	const { isPending: isSigningIn, mutateAsync: signInUser } = useSignInUser();
+
+	const { checkAuthUser, isPending: isUserLoggingIn } = useUserContext();
 
 	const form = useForm<z.infer<typeof SignupSchema>>({
 		resolver: zodResolver(SignupSchema),
@@ -67,7 +66,6 @@ export default function SignupForm() {
 			});
 		}
 
-		console.log(checkAuthUser);
 		const isLoggedIn = await checkAuthUser();
 
 		if (isLoggedIn) {

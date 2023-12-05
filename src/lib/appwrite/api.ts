@@ -65,7 +65,7 @@ export async function signInUser(user: { email: string; password: string }) {
 export async function getCurrentAccount() {
 	try {
 		const currentAccount = await account.get();
-
+		console.log(currentAccount);
 		if (!currentAccount) throw Error;
 
 		const currentUser = await databasese.listDocuments(
@@ -79,5 +79,6 @@ export async function getCurrentAccount() {
 		return currentUser.documents[0];
 	} catch (err) {
 		console.log(err);
+		return null;
 	}
 }

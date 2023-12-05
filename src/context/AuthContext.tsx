@@ -42,6 +42,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const checkAuthUser = async () => {
 		try {
 			const currentAccount = await getCurrentAccount();
+
 			setIsLoading(true);
 			if (currentAccount) {
 				setUser({
@@ -52,7 +53,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 					bio: currentAccount.bio,
 					imageUrl: currentAccount.imageUrl,
 				});
-				console.log("User Details from checkAuth");
+
 				setIsAuthenticated(true);
 
 				return true;
@@ -85,7 +86,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		setIsAuthenticated,
 		checkAuthUser,
 	};
-	// Exam Day
+
 	return (
 		<div>
 			<AuthContext.Provider value={value}>
