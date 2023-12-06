@@ -3,6 +3,8 @@ import { IUser } from "@/types";
 import { getCurrentAccount } from "@/lib/appwrite/api";
 import { useNavigate } from "react-router-dom";
 
+// I am getting an account but late mil rah hai , means last login next login mai dekh rah hai !
+
 export const INITIAL_USER = {
 	id: "",
 	name: "",

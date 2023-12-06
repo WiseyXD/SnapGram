@@ -22,6 +22,7 @@ import {
 	useSignInUser,
 } from "@/lib/reactQuery/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
+import { getAccount } from "@/lib/appwrite/api";
 
 export default function SignupForm() {
 	const { toast } = useToast();
@@ -65,6 +66,9 @@ export default function SignupForm() {
 				title: "Signup Failed please try again.",
 			});
 		}
+
+		const response = await getAccount();
+		console.log(response);
 
 		const isLoggedIn = await checkAuthUser();
 
