@@ -45,7 +45,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		try {
 			const currentAccount = await getCurrentAccount();
 			// Shaadi Done
-
+			// Add
 			setIsLoading(true);
 			if (currentAccount) {
 				setUser({
