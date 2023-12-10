@@ -4,7 +4,7 @@ import { getCurrentAccount } from "@/lib/appwrite/api";
 import { useNavigate } from "react-router-dom";
 
 // I am getting an account but late mil rah hai , means last login next login mai dekh rah hai !
-
+// Bug can not be solved
 export const INITIAL_USER = {
 	id: "",
 	name: "",
@@ -44,8 +44,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const checkAuthUser = async () => {
 		try {
 			const currentAccount = await getCurrentAccount();
-			// Shaadi Done
-			// Add
 			setIsLoading(true);
 			if (currentAccount) {
 				setUser({
